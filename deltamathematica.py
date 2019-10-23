@@ -28,5 +28,8 @@ def interpreter(uflist):
         ufx.append(uflistx[skip[x+1]])
     ufx = ufx[:len(ufx)-1]
     return ufx
+
+##Now need to work on classifying each member of ufx
+##Identify numbers and operators, but also recognise things like powers and brackets.   
 uflist = list(input("Enter your Operation: "))
 ufx = interpreter(uflist)
