@@ -2,8 +2,8 @@ def interpreter(inputlist):
     intermediate = []
     skip = [-1]
 
-#this for loop identifies certain seperators and non number characters
-#and decides whether or not to flag them
+    #this for loop identifies certain seperators and non number characters
+    #and decides whether or not to flag them
 
     for x in range(0, len(inputlist)):
         try:
@@ -19,15 +19,15 @@ def interpreter(inputlist):
     intermediate.append("")
     outputlist = []
 
-#this for loop conjoins related numbers and seperates them from operators
-#e.g. '4, 1, *, 8' would be joint to 41 * 8
-#this allows for the program to properly understand the users intention
+    #this for loop conjoins related numbers and seperates them from operators
+    #e.g. '4, 1, *, 8' would be joint to '41, *, 8'
+    #this allows for the program to properly understand the users intention
 
     for x in range(0, len(skip)-1):
-        temp = ""
+        glue = ""
         for i in range(skip[x]+1, skip[x+1]):
-            temp=temp + intermediate[i]
-        outputlist.append(temp)
+            glue = glue + intermediate[i]
+        outputlist.append(glue)
         outputlist.append(intermediate[skip[x+1]])
     outputlist = outputlist[:len(outputlist)-1]
     return outputlist
@@ -36,19 +36,19 @@ def interpreter(inputlist):
 #them in an easier to deal with format, which can be utilised more later
 
 def interpart2(checkee):
-    skippy=-1
+    backside=-1
     refurb=[]
     for x in range(0, len(checkee)):
-        temp = ""
-        if x > skippy:
+        stack = ""
+        if x > backside:
             if "(" in checkee[x]:
                 if ")" not in checkee[x]:
                     for y in range(x+1, len(checkee)):
                         if ")" in checkee[y]:
                             for z in range(x,y+1):
-                                temp = temp + checkee[z]
-                            refurb.append(temp)
-                            skippy = y
+                                stack = stack + checkee[z]
+                            refurb.append(stack)
+                            backside = y
                             break
             else:
                 refurb.append(checkee[x])
@@ -57,11 +57,11 @@ def interpart2(checkee):
 def resolve(sequence):
     pass
 
-## TODO:
-## remove brackets
-## if there are still brackets, tunnel it throught interpart2 again
-## we then need to identify each part of the equation
-## i.e. number, operator, constant, variable etc.
+    ## TODO:
+    ## remove brackets
+    ## if there are still brackets, tunnel it throught interpart2 again
+    ## we then need to identify each part of the equation
+    ## i.e. number, operator, constant, variable etc.
 
 uflist = list(input("Enter your Operation: "))
 ufx = interpart2(interpreter(uflist))
