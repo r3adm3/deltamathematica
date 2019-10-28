@@ -1,10 +1,10 @@
-#interpreter
 def interpreter(inputlist):
     intermediate = []
     skip = [-1]
-    
+
 #this for loop identifies certain seperators and non number characters
 #and decides whether or not to flag them
+
     for x in range(0, len(inputlist)):
         try:
             int(inputlist[x])
@@ -22,6 +22,7 @@ def interpreter(inputlist):
 #this for loop conjoins related numbers and seperates them from operators
 #e.g. '4, 1, *, 8' would be joint to 41 * 8
 #this allows for the program to properly understand the users intention
+
     for x in range(0, len(skip)-1):
         temp = ""
         for i in range(skip[x]+1, skip[x+1]):
@@ -33,6 +34,7 @@ def interpreter(inputlist):
 
 #interpart2 deals with bracketed equations, at this point simply expressing
 #them in an easier to deal with format, which can be utilised more later
+
 def interpart2(checkee):
     skippy=-1
     refurb=[]
@@ -52,25 +54,15 @@ def interpart2(checkee):
                 refurb.append(checkee[x])
     return refurb
 
+def resolve(sequence):
+    pass
 
+## TODO:
+## remove brackets
+## if there are still brackets, tunnel it throught interpart2 again
+## we then need to identify each part of the equation
+## i.e. number, operator, constant, variable etc.
 
-##Now need to work on classifying each member of ufx
-##Identify numbers and operators, but also recognise things like powers and brackets.
 uflist = list(input("Enter your Operation: "))
 ufx = interpart2(interpreter(uflist))
 print(ufx)
-
-#ufxtypes = []
-#for element in ufx:
-#    if "(" in element:
-#        print()
-#    else:
-#        try:
-#            int(element)
-#            ufxtypes.append("Number")
-#        except ValueError:
-#            try:
-#                double(element)
-#                ufxtypes.append("Number")
-#            except ValueError:
-#                ufxtypes.append("Operator")
