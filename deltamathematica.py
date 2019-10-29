@@ -83,17 +83,47 @@ def bracketCheck(sequence):
         neosequence.append(sequence[x])
     return neosequence
 
-def resolve():
-    pass
+##resolve takes any bracketed function and simplifies it down so that it can
+##be manipulated further
+
+def resolve(materia):
+    raw = materia[1:len(materia)-1]
+    if "(" in raw:
+        raw = resolve(bracketCheck(interpart2(interpreter(raw))))
+    ing = []
+    ingtype = []
+    ing = interpart2(interpreter(raw))
+    for x in range(0, len(ing)):
+        ingtype.append(classify(ing[x]))
+    print(ingtype)
+
+##classify simply takes each part of the equation and identifies
+##its type i.e. integers, decimals, operators, etc.
+
+def classify(unknown):
+    identity = ""
+    try:
+        int(unknown)
+        identity = "integer"
+    except ValueError:
+        try:
+            float(unknown)
+            identity = "decimal"
+        except ValueError:
+            if unknown == "pi" or unknown == "e":
+                identity = "constant"
+            elif unknown == "x" or unknown == "y" or unknown == "z":
+                identity = "variable"
+            elif unknown == "+" or unknown == "-" or unknown == "*" or unknown == "/" or unknown == "^":
+                identity = "operator"
+    return identity
+
     ## TODO:
-    ## remove brackets
-    ## if there are still brackets, tunnel it throught interpart2 again
-    ## we then need to identify each part of the equation
-    ## i.e. number, operator, constant, variable etc.
+    ## start simplifying the equations given and actually doing some maths
+
 
 uflist = list(input("Enter your Operation: "))
 ufx = bracketCheck(interpart2(interpreter(uflist)))
 for element in ufx:
     if "(" in element:
         resolve(element)
-print(ufx)
