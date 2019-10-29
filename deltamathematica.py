@@ -1,3 +1,13 @@
+def main():
+    uflist = list(input("Enter your Operation: "))
+    ufx = bracketCheck(interpart2(interpreter(uflist)))
+    for element in ufx:
+        if "(" in element:
+            resolve(element)
+
+##interpreter takes the initial input and does some basic parsing which
+##is essential in order for the later, more complicated parsing
+
 def interpreter(inputlist):
     intermediate = []
     skip = [-1]
@@ -32,8 +42,8 @@ def interpreter(inputlist):
     outputlist = outputlist[:len(outputlist)-1]
     return outputlist
 
-#interpart2 deals with bracketed equations, at this point simply expressing
-#them in an easier to deal with format, which can be utilised more later
+##interpart2 deals with bracketed equations, at this point simply expressing
+##them in an easier to deal with format, which can be utilised more later
 
 def interpart2(checkee):
     backside=-1
@@ -86,6 +96,8 @@ def bracketCheck(sequence):
 ##resolve takes any bracketed function and simplifies it down so that it can
 ##be manipulated further
 
+##resolve depends on more functions so will take more time to develop
+
 def resolve(materia):
     raw = materia[1:len(materia)-1]
     if "(" in raw:
@@ -118,12 +130,8 @@ def classify(unknown):
                 identity = "operator"
     return identity
 
-    ## TODO:
-    ## start simplifying the equations given and actually doing some maths
+## TODO:
+## start simplifying the equations given and actually doing some maths
+## get interpreter to remove any spaces
 
-
-uflist = list(input("Enter your Operation: "))
-ufx = bracketCheck(interpart2(interpreter(uflist)))
-for element in ufx:
-    if "(" in element:
-        resolve(element)
+main()
