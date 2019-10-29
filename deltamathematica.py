@@ -54,9 +54,37 @@ def interpart2(checkee):
                 refurb.append(checkee[x])
     return refurb
 
-def resolve(sequence):
-    pass
+##bracketCheck identifies the use of brackets and then transforms the input
+##into a more readable format, that can be evaluated
 
+def bracketCheck(sequence):
+    factor = ""
+    internal = ""
+    modi = 0
+    neosequence = []
+    for x in range(0, len(sequence)):
+        if "(" in sequence[x]:
+            modi = x
+            scan = list(sequence[x])
+            for y in range(0,len(scan)):
+                if scan[y] == "(":
+                    operation = y
+                    break
+            for y in range(0, operation):
+                factor = factor + scan[y]
+            internal = sequence[x][operation:]
+            break
+    for x in range(0,modi):
+        neosequence.append(sequence[x])
+    neosequence.append(factor)
+    neosequence.append("*")
+    neosequence.append(internal)
+    for x in range(modi+1, len(sequence)):
+        neosequence.append(sequence[x])
+    return neosequence
+
+def resolve():
+    pass
     ## TODO:
     ## remove brackets
     ## if there are still brackets, tunnel it throught interpart2 again
@@ -64,5 +92,8 @@ def resolve(sequence):
     ## i.e. number, operator, constant, variable etc.
 
 uflist = list(input("Enter your Operation: "))
-ufx = interpart2(interpreter(uflist))
+ufx = bracketCheck(interpart2(interpreter(uflist)))
+for element in ufx:
+    if "(" in element:
+        resolve(element)
 print(ufx)
