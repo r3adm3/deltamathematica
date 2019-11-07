@@ -1,26 +1,45 @@
-def main():
-    uflist = list(input("Enter your Operation: "))
-    ufx = bracketCheck(interpart2(interpreter(uflist)))
-    for element in ufx:
-        if "(" in element:
-            resolve(element)
 
-##interpreter takes the initial input and does some basic parsing which
-##is essential in order for the later, more complicated parsing
+## the main function is one which will always be called and takes
+## the users initial input and decides what to do with it
+
+def main():
+    og = input().split()
+    go = ""
+    command = og[0]
+    og = og[1:]
+    for x in range(0, len(og)):
+        go = go + og[x]
+    if command == "solve":
+        solve(go)
+
+## solve simply decides what order to call functions in order
+## when the user wishes to solve an equation
+
+def solve(uflist):
+    ufx = bracketCheck(interpart2(interpreter(uflist)))
+    print(ufx)
+
+## interpreter takes the initial input and does some basic parsing which
+## is essential in order for the later, more complicated parsing
 
 def interpreter(inputlist):
     intermediate = []
     skip = [-1]
 
-    #this for loop identifies certain seperators and non number characters
-    #and decides whether or not to flag them
+    # this for loop identifies certain seperators and non number characters
+    # and decides whether or not to flag them
 
     for x in range(0, len(inputlist)):
         try:
             int(inputlist[x])
             intermediate.append(inputlist[x])
         except ValueError:
-            if (inputlist[x] == ".") or (inputlist[x] == "(") or (inputlist[x] == ")") or (inputlist[x] == "e") or (inputlist[x] == "pi"):
+            if (
+                inputlist[x] == "." or inputlist[x] == "(" or \
+                inputlist[x] == ")" or inputlist[x] == "e" or \
+                inputlist[x] == "pi" or inputlist[x] == "x" or \
+                inputlist[x] == "y" or inputlist[x] == "z"
+                ):
                 intermediate.append(inputlist[x])
             else:
                 skip.append(x)
@@ -29,9 +48,9 @@ def interpreter(inputlist):
     intermediate.append("")
     outputlist = []
 
-    #this for loop conjoins related numbers and seperates them from operators
-    #e.g. '4, 1, *, 8' would be joint to '41, *, 8'
-    #this allows for the program to properly understand the users intention
+    # this for loop conjoins related numbers and seperates them from operators
+    # e.g. '4, 1, *, 8' would be joint to '41, *, 8'
+    # this allows for the program to properly understand the users intention
 
     for x in range(0, len(skip)-1):
         glue = ""
@@ -42,8 +61,8 @@ def interpreter(inputlist):
     outputlist = outputlist[:len(outputlist)-1]
     return outputlist
 
-##interpart2 deals with bracketed equations, at this point simply expressing
-##them in an easier to deal with format, which can be utilised more later
+## interpart2 deals with bracketed equations, at this point simply expressing
+## them in an easier to deal with format, which can be utilised more later
 
 def interpart2(checkee):
     backside=-1
@@ -64,8 +83,8 @@ def interpart2(checkee):
                 refurb.append(checkee[x])
     return refurb
 
-##bracketCheck identifies the use of brackets and then transforms the input
-##into a more readable format, that can be evaluated
+## bracketCheck identifies the use of brackets and then transforms the input
+## into a more readable format, that can be evaluated
 
 def bracketCheck(sequence):
     factor = ""
@@ -84,33 +103,26 @@ def bracketCheck(sequence):
                 factor = factor + scan[y]
             internal = sequence[x][operation:]
             break
-    for x in range(0,modi):
-        neosequence.append(sequence[x])
-    neosequence.append(factor)
-    neosequence.append("*")
-    neosequence.append(internal)
-    for x in range(modi+1, len(sequence)):
-        neosequence.append(sequence[x])
+    if factor == "":
+        neosequence = sequence
+    else:
+        for x in range(0,modi):
+            neosequence.append(sequence[x])
+        neosequence.append(factor)
+        neosequence.append("*")
+        neosequence.append(internal)
+        for x in range(modi+1, len(sequence)):
+            neosequence.append(sequence[x])
     return neosequence
 
-##resolve takes any bracketed function and simplifies it down so that it can
-##be manipulated further
-
-##resolve depends on more functions so will take more time to develop
+## resolve takes any bracketed function and simplifies it down so that it can
+## be manipulated further
 
 def resolve(materia):
-    raw = materia[1:len(materia)-1]
-    if "(" in raw:
-        raw = resolve(bracketCheck(interpart2(interpreter(raw))))
-    ing = []
-    ingtype = []
-    ing = interpart2(interpreter(raw))
-    for x in range(0, len(ing)):
-        ingtype.append(classify(ing[x]))
-    print(ingtype)
+    pass
 
-##classify simply takes each part of the equation and identifies
-##its type i.e. integers, decimals, operators, etc.
+## classify simply takes each part of the equation and identifies
+## its type i.e. integers, decimals, operators, etc.
 
 def classify(unknown):
     identity = ""
